@@ -1,0 +1,23 @@
+name: Artifact Test
+run-name: ${{ github.actor}} is running Artifact Test
+on: [push]
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          expr 1 + 1 > output.log
+      - name: Upload output file 
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-log-file
+          path: output.log
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: output-log-file
+      - run: |
+          cat output.log
